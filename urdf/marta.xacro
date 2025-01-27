@@ -8,8 +8,15 @@
 <xacro:include filename="$(find marta_description)/urdf/IMU.xacro" />
 <xacro:include filename="$(find marta_description)/urdf/marta_joints.xacro" />
 
-<xacro:imu_sensor parent="base_link" ns="marta" origin="-5.76e-3 -53.277e-3 -48.948e-3 0 0 0"/>
-<xacro:camera_sensor parent="head_1" camera_name="front_camera" ns="marta" origin="-0.02060 -0.050864 0.047202 0 0 -1.57"/>
+<!-- Define o parâmetro "use_sim" -->
+<xacro:property name="use_sim" value="true" />
+
+<!-- Adiciona o imu_sensor e camera_sensor apenas se use_sim for true -->
+<xacro:if value="${use_sim}">
+  <xacro:imu_sensor parent="base_link" ns="marta" origin="-5.76e-3 -53.277e-3 -48.948e-3 0 0 0"/>
+  <xacro:camera_sensor parent="head_1" camera_name="front_camera" ns="marta" origin="-0.02060 -0.050864 0.047202 0 0 -1.57"/>
+</xacro:if>
+
 
 <link name="base_link">
   <inertial>
@@ -475,5 +482,19 @@
     </surface>
   </collision>
 </link>
+
+<link name="imu_position">
+  <inertial>
+    <origin xyz="-5.76e-3 53.277e-3 48.948e-3" rpy="0 0 0" />
+    <mass value="0.0" />
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0" />
+  </inertial>
+</link>
+
+<joint name="imu_joint" type="fixed">
+  <parent link="base_link" />
+  <child link="imu_position" />
+  <origin xyz="-5.76e-3 53.277e-3 48.948e-3" rpy="0 0 0" />
+</joint>
 
 </robot>
