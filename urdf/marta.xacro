@@ -14,7 +14,7 @@
 <!-- Adiciona o imu_sensor e camera_sensor apenas se use_sim for true -->
 <xacro:if value="${use_sim}">
   <xacro:imu_sensor parent="base_link" ns="marta" origin="-5.76e-3 -53.277e-3 -48.948e-3 0 0 0"/>
-  <xacro:camera_sensor parent="head_1" camera_name="front_camera" ns="marta" origin="-0.02060 -0.050864 0.047202 0 0 -1.57"/>
+  <xacro:camera_sensor parent="head_1" camera_name="front_camera" ns="marta" origin="0.050864 -0.047202 0.02060 0 0 0"/>
 </xacro:if>
 
 
