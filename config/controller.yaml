@@ -10,74 +10,74 @@ marta:
   l_hip_yaw_position:
     type: effort_controllers/JointPositionController
     joint: l_hip_yaw_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 45.8790698, i: 2.12340330, d: 0.0263130423}
   
   l_hip_roll_position:
     type: effort_controllers/JointPositionController
     joint: l_hip_roll_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 48.4358685, i: 0.793744216, d: 0.0436726557}
   
   l_hip_pitch_position:
     type: effort_controllers/JointPositionController
     joint: l_hip_pitch_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 45.6427814, i: 0.781345318, d: 0.0283486386}
   
   l_knee_position:
     type: effort_controllers/JointPositionController
     joint: l_knee_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 45.5204195, i: 1.80069898, d: 0.00376002856}
   
   l_ank_roll_position:
     type: effort_controllers/JointPositionController
     joint: l_ank_roll_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 31.4272481, i: 2.06578373, d: 0.0443983115}
   
   l_ank_pitch_position:
     type: effort_controllers/JointPositionController
     joint: l_ank_pitch_link
-    pid: {p: 50.0, i: 0.0001, d: 0.06}
+    pid: {p: 34.9218578, i: 0.0268820247, d: 0.0301425364}
   
   # Right Leg ---------------------------------------------------
   r_hip_yaw_position:
     type: effort_controllers/JointPositionController
     joint: r_hip_yaw_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 40.0, i: 2.5, d: 0.05}
   
   r_hip_roll_position:
     type: effort_controllers/JointPositionController
     joint: r_hip_roll_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 48.4358685, i: 0.793744216, d: 0.0436726557}
   
   r_hip_pitch_position:
     type: effort_controllers/JointPositionController
     joint: r_hip_pitch_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 45.6427814, i: 0.781345318, d: 0.0283486386}
   
   r_knee_position:
     type: effort_controllers/JointPositionController
     joint: r_knee_link
-    pid: {p: 50.0, i: 0.0, d: 0.05}
+    pid: {p: 45.5204195, i: 1.80069898, d: 0.00376002856}
   
   r_ank_roll_position:
     type: effort_controllers/JointPositionController
     joint: r_ank_roll_link
-    pid: {p: 50.0, i: 0.0, d: 0.06}
+    pid: {p: 31.4272481, i: 2.06578373, d: 0.0443983115}
   
   r_ank_pitch_position:
     type: effort_controllers/JointPositionController
     joint: r_ank_pitch_link
-    pid: {p: 50.0, i: 0.0001, d: 0.06}
+    pid: {p: 34.9218578, i: 0.0268820247, d: 0.0301425364}
   
   # Left Arm ---------------------------------------------------
   l_sho_pitch_position:
     type: effort_controllers/JointPositionController
     joint: l_sho_pitch_link
-    pid: {p: 10.0, i: 0.0, d: 0.05}
+    pid: {p: 49.9198510, i: 0.195329406, d: 0.0499711689}
   
   l_sho_roll_position:
     type: effort_controllers/JointPositionController
     joint: l_sho_roll_link
-    pid: {p: 10.0, i: 0.0, d: 0.05}
+    pid: {p: 47.9429026, i: 0.222969015, d: 0.0441997151}
   
   l_el_position:
     type: effort_controllers/JointPositionController
@@ -88,12 +88,12 @@ marta:
   r_sho_pitch_position:
     type: effort_controllers/JointPositionController
     joint: r_sho_pitch_link
-    pid: {p: 10.0, i: 0.0, d: 0.05}
+    pid: {p: 49.9198510, i: 0.195329406, d: 0.0499711689}
   
   r_sho_roll_position:
     type: effort_controllers/JointPositionController
     joint: r_sho_roll_link
-    pid: {p: 10.0, i: 0.0, d: 0.05}
+    pid: {p: 47.9429026, i: 0.222969015, d: 0.0441997151}
   
   r_el_position:
     type: effort_controllers/JointPositionController
@@ -104,9 +104,9 @@ marta:
   head_pan_position:
     type: effort_controllers/JointPositionController
     joint: head_pan_link
-    pid: {p: 5.0, i: 0.0, d: 0.05}
+    pid: {p: 2.0, i: 0.2, d: 0.05}
   
   head_tilt_position:
     type: effort_controllers/JointPositionController
     joint: head_tilt_link
-    pid: {p: 5.0, i: 0.0, d: 0.05}
+    pid: {p: 2.0, i: 0.2, d: 0.05}
