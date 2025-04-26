@@ -72,12 +72,12 @@ marta:
   l_sho_pitch_position:
     type: effort_controllers/JointPositionController
     joint: l_sho_pitch_link
-    pid: {p: 49.9198510, i: 0.195329406, d: 0.0499711689}
+    pid: {p: 97.3617760, i: 0.478030356, d: 0.00106579812}
   
   l_sho_roll_position:
     type: effort_controllers/JointPositionController
     joint: l_sho_roll_link
-    pid: {p: 47.9429026, i: 0.222969015, d: 0.0441997151}
+    pid: {p: 93.7378626, i: 4.88222126, d: 0.0356595003}
   
   l_el_position:
     type: effort_controllers/JointPositionController
@@ -88,12 +88,12 @@ marta:
   r_sho_pitch_position:
     type: effort_controllers/JointPositionController
     joint: r_sho_pitch_link
-    pid: {p: 49.9198510, i: 0.195329406, d: 0.0499711689}
+    pid: {p: 96.2453081, i: 0.734453927, d: 0.0876419499}
   
   r_sho_roll_position:
     type: effort_controllers/JointPositionController
     joint: r_sho_roll_link
-    pid: {p: 47.9429026, i: 0.222969015, d: 0.0441997151}
+    pid: {p: 99.5296719, i: 0.535662610, d: 0.0407341932}
   
   r_el_position:
     type: effort_controllers/JointPositionController
