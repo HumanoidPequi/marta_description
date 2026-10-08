@@ -1,6 +1,63 @@
 <?xml version="1.0" ?>
 <robot name="marta" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+<!--
+  ============================================================================
+  Knobs de realismo da simulação
+  ============================================================================
+  Todos os defaults reproduzem exatamente o modelo anterior, então nada muda a
+  menos que seja passado na linha de comando do xacro, com UMA exceção:
+  foot_collision, cujo default passou a ser "box" em 2026-10-07 (a colisão de
+  malha fazia o robô girar sozinho para a esquerda; ver docs/README.md, achado
+  I). Campanhas anteriores a essa data rodaram com "mesh". Os knobs servem para
+  degradar a simulação de forma controlada, um fator por vez.
+
+    foot_mu        1e10   -> atrito do pé. Adimensional; na física real fica
+                            abaixo de ~1,5. Com 1e10 o pé nunca escorrega.
+    body_mu1/2     500/400 -> atrito dos demais links (só importa em colisão)
+    contact_kp/kd  1e6/1e4 -> rigidez e amortecimento do contato do pé
+    joint_effort   1000.0 -> limite de torque das juntas [N·m]. A Marta tem
+                            4,78 kg e precisa de ~2-4 N·m no joelho; um servo
+                            KidSize entrega 2-6 N·m. 1000 é ~200x de margem.
+    joint_damping  0.0    -> atrito viscoso das juntas [N·m·s/rad]
+    joint_friction 0.0    -> atrito de Coulomb das juntas [N·m]
+    imu_gyro_noise 0.0    -> desvio padrão do ruído do giroscópio [rad/s]
+    imu_accel_noise 0.0   -> desvio padrão do ruído do acelerômetro [m/s²]
+    imu_gyro_bias  0.0    -> bias do giroscópio [rad/s]
+    foot_collision box    -> geometria de colisão do pé: "mesh" (STL original)
+                            ou "box" (caixa com a mesma sola: 0,140 x 0,070 m,
+                            fundo em z = -0,037 no frame do link). Com "mesh" o
+                            pé de apoio gira 1-2 graus no chão a cada passo e o
+                            robô deriva ~4 graus/s para a esquerda; com "box",
+                            ~0 e sem lado preferido. O visual segue sendo o STL.
+
+  NOTA: o terreno é deliberadamente mantido plano e nivelado. O gerador de
+  marcha assume solo plano e altura de CoM constante no LIPM; inclinar ou
+  acidentar o chão violaria a premissa do gerador em vez de testar o
+  estabilizador.
+-->
+<xacro:arg name="foot_mu"         default="1e10"/>
+<xacro:arg name="body_mu1"        default="500"/>
+<xacro:arg name="body_mu2"        default="400"/>
+<xacro:arg name="contact_kp"      default="1000000.0"/>
+<xacro:arg name="contact_kd"      default="10000.0"/>
+<xacro:arg name="joint_effort"    default="1000.0"/>
+<xacro:arg name="joint_damping"   default="0.0"/>
+<xacro:arg name="joint_friction"  default="0.0"/>
+<xacro:arg name="imu_gyro_noise"  default="0.0"/>
+<xacro:arg name="imu_accel_noise" default="0.0"/>
+<xacro:arg name="imu_gyro_bias"   default="0.0"/>
+<xacro:arg name="foot_collision"  default="box"/>
+
+<xacro:property name="foot_mu"         value="$(arg foot_mu)"/>
+<xacro:property name="body_mu1"        value="$(arg body_mu1)"/>
+<xacro:property name="body_mu2"        value="$(arg body_mu2)"/>
+<xacro:property name="contact_kp"      value="$(arg contact_kp)"/>
+<xacro:property name="contact_kd"      value="$(arg contact_kd)"/>
+<xacro:property name="joint_effort"    value="$(arg joint_effort)"/>
+<xacro:property name="joint_damping"   value="$(arg joint_damping)"/>
+<xacro:property name="joint_friction"  value="$(arg joint_friction)"/>
+
 <xacro:include filename="$(find marta_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find marta_description)/urdf/marta.trans" />
 <xacro:include filename="$(find marta_description)/urdf/marta.gazebo" />
@@ -13,7 +70,11 @@
 
 <!-- Adiciona o imu_sensor e camera_sensor apenas se use_sim for true -->
 <xacro:if value="${use_sim}">
-  <xacro:imu_sensor parent="base_link" ns="marta" origin="-5.76e-3 -53.277e-3 -48.948e-3 ${pi} 0 ${pi}"/>
+  <xacro:imu_sensor parent="base_link" ns="marta"
+                    origin="-5.76e-3 -53.277e-3 -48.948e-3 ${pi} 0 ${pi}"
+                    gyro_noise="$(arg imu_gyro_noise)"
+                    accel_noise="$(arg imu_accel_noise)"
+                    gyro_bias="$(arg imu_gyro_bias)"/>
   <xacro:camera_sensor parent="head_1" camera_name="front_camera" ns="marta" origin="0.04060 -0.020864 0.051202 0 0 0"/>
 </xacro:if>
 
@@ -436,16 +497,27 @@
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.017701 -0.039506 0.303802" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://marta_description/meshes/l_feet_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
+    <xacro:if value="${'$(arg foot_collision)' == 'box'}">
+      <!-- Mesma caixa envolvente da sola do STL (bbox medido da malha). -->
+      <origin xyz="0.02445 0 -0.013" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1399 0.070 0.048"/>
+      </geometry>
+    </xacro:if>
+    <xacro:unless value="${'$(arg foot_collision)' == 'box'}">
+      <origin xyz="0.017701 -0.039506 0.303802" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://marta_description/meshes/l_feet_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </xacro:unless>
     <surface>
       <contact>
           <ode>
-            <!-- <max_vel>0</max_vel> -->
-            <kp>1e25</kp>
-            <kd>1e23</kd>
+            <!-- Mesma fonte que o bloco <gazebo reference="*_feet_1"> em
+                 marta.gazebo: antes havia 1e25/1e23 aqui e 1e6/1e4 la, valores
+                 conflitantes para a mesma superficie. -->
+            <kp>${contact_kp}</kp>
+            <kd>${contact_kd}</kd>
           </ode>
         </contact>
     </surface>
@@ -467,16 +539,27 @@
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.017701 0.039494 0.303802" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://marta_description/meshes/r_feet_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
+    <xacro:if value="${'$(arg foot_collision)' == 'box'}">
+      <!-- Mesma caixa envolvente da sola do STL (bbox medido da malha). -->
+      <origin xyz="0.02445 0 -0.013" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1399 0.070 0.048"/>
+      </geometry>
+    </xacro:if>
+    <xacro:unless value="${'$(arg foot_collision)' == 'box'}">
+      <origin xyz="0.017701 0.039494 0.303802" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://marta_description/meshes/r_feet_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </xacro:unless>
     <surface>
       <contact>
           <ode>
-            <!-- <max_vel>0</max_vel> -->
-            <kp>1e25</kp>
-            <kd>1e23</kd>
+            <!-- Mesma fonte que o bloco <gazebo reference="*_feet_1"> em
+                 marta.gazebo: antes havia 1e25/1e23 aqui e 1e6/1e4 la, valores
+                 conflitantes para a mesma superficie. -->
+            <kp>${contact_kp}</kp>
+            <kd>${contact_kd}</kd>
           </ode>
         </contact>
     </surface>

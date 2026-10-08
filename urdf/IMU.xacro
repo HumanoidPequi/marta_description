@@ -1,9 +1,29 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="imu_sensor" params="parent origin ns">
+    <!--
+      gyro_noise  [rad/s]   desvio padrao do ruido gaussiano na velocidade angular
+      accel_noise [m/s^2]   desvio padrao do ruido gaussiano na aceleracao
+      gyro_bias   [rad/s]   bias constante do giroscopio. Atencao: o erro de
+                            regime do filtro complementar e bias * tau, entao com
+                            tau ~ 5 s um bias de 0,01 rad/s vira ~2,9 graus de
+                            offset permanente no pitch estimado.
+      accel_bias  [m/s^2]   bias constante do acelerometro
+
+      Zero em todos por default, o que reproduz o comportamento anterior. O ruido
+      e aplicado pelo proprio Gazebo no bloco <imu> do SDF, por eixo, o que e
+      mais fiel do que o <gaussianNoise> do plugin (um valor unico para tudo).
+    -->
+    <xacro:macro name="imu_sensor"
+                 params="parent origin ns
+                         gyro_noise:=0.0 accel_noise:=0.0
+                         gyro_bias:=0.0 accel_bias:=0.0">
         <!-- Gazebo sensor configuration -->
         <gazebo reference="${parent}">
             <gravity>true</gravity>
+            <!-- update_rate (taxa de amostragem do sensor) e updateRateHZ (taxa
+                 de publicacao do plugin) precisam ser iguais: com 100 e 10 o
+                 topico saia a 10 Hz, taxa insuficiente para o laco de controle
+                 e para a estimacao de atitude a 100 Hz. -->
             <sensor name="imu_sensor" type="imu">
                 <always_on>true</always_on>
                 <update_rate>100</update_rate>
@@ -11,14 +31,43 @@
                 <topic>__default_topic__</topic>
                 <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                     <topicName>/${ns}/imu</topicName>
-                    <bodyName>imu_link</bodyName>
-                    <updateRateHZ>10.0</updateRateHZ>
+                    <!-- imu_link nao existe no URDF; o sensor esta fixado em
+                         base_link (ver marta.xacro). A pose abaixo rotaciona o
+                         frame de medicao em R_y(pi) em relacao a base_link, o
+                         que e tratado pelo parametro imu_mount_rpy do
+                         torso_attitude_node. -->
+                    <bodyName>base_link</bodyName>
+                    <updateRateHZ>100.0</updateRateHZ>
                     <gaussianNoise>0.0</gaussianNoise>
                     <xyzOffset>0 0 0</xyzOffset>
                     <rpyOffset>0 0 0</rpyOffset>
                     <frameName>imu_link</frameName>
                     <initialOrientationAsReference>false</initialOrientationAsReference>
                 </plugin>
+                <imu>
+                    <angular_velocity>
+                        <x><noise type="gaussian">
+                            <mean>${gyro_bias}</mean><stddev>${gyro_noise}</stddev>
+                        </noise></x>
+                        <y><noise type="gaussian">
+                            <mean>${gyro_bias}</mean><stddev>${gyro_noise}</stddev>
+                        </noise></y>
+                        <z><noise type="gaussian">
+                            <mean>${gyro_bias}</mean><stddev>${gyro_noise}</stddev>
+                        </noise></z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x><noise type="gaussian">
+                            <mean>${accel_bias}</mean><stddev>${accel_noise}</stddev>
+                        </noise></x>
+                        <y><noise type="gaussian">
+                            <mean>${accel_bias}</mean><stddev>${accel_noise}</stddev>
+                        </noise></y>
+                        <z><noise type="gaussian">
+                            <mean>${accel_bias}</mean><stddev>${accel_noise}</stddev>
+                        </noise></z>
+                    </linear_acceleration>
+                </imu>
                 <pose>${origin}</pose>
             </sensor>
         </gazebo>

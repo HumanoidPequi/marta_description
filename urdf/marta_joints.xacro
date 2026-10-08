@@ -13,8 +13,8 @@
   <parent link="base_link"/>
   <child link="neck_1"/>
   <axis xyz="-0.0 0.0 -1.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="head_tilt_link" type="revolute">
@@ -22,8 +22,8 @@
   <parent link="neck_1"/>
   <child link="head_1"/>
   <axis xyz="-0.0 -1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_hip_yaw_link" type="revolute">
@@ -31,8 +31,8 @@
   <parent link="base_link"/>
   <child link="r_hip_1"/>
   <axis xyz="-0.0 0.0 -1.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_hip_yaw_link" type="revolute">
@@ -40,8 +40,8 @@
   <parent link="base_link"/>
   <child link="l_hip_1"/>
   <axis xyz="0.0 0.0 -1.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_hip_roll_link" type="revolute">
@@ -49,8 +49,8 @@
   <parent link="l_hip_1"/>
   <child link="l_waist_1"/>
   <axis xyz="1.0 -0.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_hip_roll_link" type="revolute">
@@ -58,8 +58,8 @@
   <parent link="r_hip_1"/>
   <child link="r_waist_1"/>
   <axis xyz="1.0 0.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_hip_pitch_link" type="revolute">
@@ -67,8 +67,8 @@
   <parent link="r_waist_1"/>
   <child link="r_thigh_1"/>
   <axis xyz="0.0 1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_hip_pitch_link" type="revolute">
@@ -76,8 +76,8 @@
   <parent link="l_waist_1"/>
   <child link="l_thigh_1"/>
   <axis xyz="0.0 1.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_knee_link" type="revolute">
@@ -85,8 +85,8 @@
   <parent link="r_thigh_1"/>
   <child link="r_shin_1"/>
   <axis xyz="-0.0 1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_knee_link" type="revolute">
@@ -94,8 +94,8 @@
   <parent link="l_thigh_1"/>
   <child link="l_shin_1"/>
   <axis xyz="0.0 1.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_ank_pitch_link" type="revolute">
@@ -103,8 +103,8 @@
   <parent link="l_shin_1"/>
   <child link="l_ankle_1"/>
   <axis xyz="-0.0 1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_ank_pitch_link" type="revolute">
@@ -112,8 +112,8 @@
   <parent link="r_shin_1"/>
   <child link="r_ankle_1"/>
   <axis xyz="-0.0 1.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_ank_roll_link" type="revolute">
@@ -121,8 +121,8 @@
   <parent link="r_ankle_1"/>
   <child link="r_feet_1"/>
   <axis xyz="1.0 0.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_sho_pitch_link" type="revolute">
@@ -130,8 +130,8 @@
   <parent link="base_link"/>
   <child link="l_shoulder_1"/>
   <axis xyz="0.0 1.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_sho_pitch_link" type="revolute">
@@ -139,8 +139,8 @@
   <parent link="base_link"/>
   <child link="r_shoulder_1"/>
   <axis xyz="-0.0 1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_sho_roll_link" type="revolute">
@@ -148,8 +148,8 @@
   <parent link="l_shoulder_1"/>
   <child link="l_arm_1"/>
   <axis xyz="-1.0 -0.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_sho_roll_link" type="revolute">
@@ -157,8 +157,8 @@
   <parent link="r_shoulder_1"/>
   <child link="r_arm_1"/>
   <axis xyz="-1.0 0.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_ank_roll_link" type="revolute">
@@ -166,8 +166,8 @@
   <parent link="l_ankle_1"/>
   <child link="l_feet_1"/>
   <axis xyz="1.0 -0.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="r_el_link" type="revolute">
@@ -175,8 +175,8 @@
   <parent link="r_arm_1"/>
   <child link="r_hand_1"/>
   <axis xyz="0.0 1.0 -0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 <joint name="l_el_link" type="revolute">
@@ -184,8 +184,8 @@
   <parent link="l_arm_1"/>
   <child link="l_hand_1"/>
   <axis xyz="-0.0 1.0 0.0"/>
-  <!-- <dynamics damping="0.1" /> -->
-  <limit lower="-3.14159" upper="3.14159" effort="1000.0" velocity="0.01"/>
+  <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  <limit lower="-3.14159" upper="3.14159" effort="${joint_effort}" velocity="0.01"/>
 </joint>
 
 </robot>
