@@ -48,6 +48,18 @@
 <xacro:arg name="imu_accel_noise" default="0.0"/>
 <xacro:arg name="imu_gyro_bias"   default="0.0"/>
 <xacro:arg name="foot_collision"  default="box"/>
+<!-- Escala da massa do tronco (base_link); a inercia escala junto (mesma forma,
+     densidade proporcional). 1.0 = modelo original. Experimento de massa. -->
+<xacro:arg name="torso_mass_scale" default="1.0"/>
+<!-- Integra o amortecimento de junta (joint_damping) de forma IMPLICITA no ODE
+     (implicitSpringDamper). O explicito foi instavel (README, achado D). Usado
+     pelo modelo de servo MX-28 (plano_comparacao_darwin.md §3). -->
+<xacro:arg name="implicit_damping" default="false"/>
+<!-- Limite de velocidade das juntas [rad/s]. O original e 0,01; o Gazebo zera o
+     esforco que empurra a junta no sentido do movimento acima dele (so deixa
+     frear). MX-28 a 12 V: 5,76 rad/s em vazio. -->
+<xacro:arg name="joint_velocity" default="0.01"/>
+<xacro:property name="joint_velocity" value="$(arg joint_velocity)"/>
 
 <xacro:property name="foot_mu"         value="$(arg foot_mu)"/>
 <xacro:property name="body_mu1"        value="$(arg body_mu1)"/>
@@ -57,9 +69,32 @@
 <xacro:property name="joint_effort"    value="$(arg joint_effort)"/>
 <xacro:property name="joint_damping"   value="$(arg joint_damping)"/>
 <xacro:property name="joint_friction"  value="$(arg joint_friction)"/>
+<xacro:property name="torso_mass_scale" value="$(arg torso_mass_scale)"/>
 
 <xacro:include filename="$(find marta_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find marta_description)/urdf/marta.trans" />
+<xacro:if value="$(arg implicit_damping)">
+  <gazebo reference="head_pan_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="head_tilt_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_hip_yaw_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_hip_yaw_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_hip_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_hip_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_hip_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_hip_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_knee_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_knee_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_ank_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_ank_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_ank_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_sho_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_sho_pitch_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_sho_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_sho_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_ank_roll_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="r_el_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="l_el_link"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+</xacro:if>
 <xacro:include filename="$(find marta_description)/urdf/marta.gazebo" />
 <xacro:include filename="$(find marta_description)/urdf/camera.xacro" />
 <xacro:include filename="$(find marta_description)/urdf/IMU.xacro" />
@@ -82,8 +117,8 @@
 <link name="base_link">
   <inertial>
     <origin xyz="5.4347537332971534e-05 -0.0007644260033313482 -0.006523313454687187" rpy="0 0 0"/>
-    <mass value="2.9663080742707644"/>
-    <inertia ixx="0.011903" iyy="0.0138" izz="0.007909" ixy="-0.000103" iyz="-5e-06" ixz="-0.000518"/>
+    <mass value="${2.9663080742707644 * torso_mass_scale}"/>
+    <inertia ixx="${0.011903 * torso_mass_scale}" iyy="${0.0138 * torso_mass_scale}" izz="${0.007909 * torso_mass_scale}" ixy="${-0.000103 * torso_mass_scale}" iyz="${-5e-06 * torso_mass_scale}" ixz="${-0.000518 * torso_mass_scale}"/>
   </inertial>
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>

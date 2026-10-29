@@ -1,0 +1,117 @@
+# Ganhos do modelo de servo MX-28 (S0) para a Marta: carregado POR CIMA do
+# controller.yaml (stabilizer_test.launch gains:=...). Kp = (4096/2pi) *
+# (N*Kt*eta/R) * (P/8) * (Vs/511) com P = 32, Vs = 12 V (Maximo, doutorado,
+# eq. 3.37, p. 63). O amortecimento vem da junta (joint_damping 0.43, implicito)
+# e o limite de 2,5 N.m do joint_effort. plano_comparacao_darwin.md §3.
+marta:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+  
+  # Position Controllers ---------------------------------------
+
+  # Left Leg ---------------------------------------------------
+  l_hip_yaw_position:
+    type: effort_controllers/JointPositionController
+    joint: l_hip_yaw_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_hip_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: l_hip_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_hip_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: l_hip_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_knee_position:
+    type: effort_controllers/JointPositionController
+    joint: l_knee_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_ank_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: l_ank_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_ank_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: l_ank_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  # Right Leg ---------------------------------------------------
+  r_hip_yaw_position:
+    type: effort_controllers/JointPositionController
+    joint: r_hip_yaw_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_hip_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: r_hip_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_hip_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: r_hip_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_knee_position:
+    type: effort_controllers/JointPositionController
+    joint: r_knee_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_ank_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: r_ank_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_ank_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: r_ank_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  # Left Arm ---------------------------------------------------
+  l_sho_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: l_sho_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_sho_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: l_sho_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  l_el_position:
+    type: effort_controllers/JointPositionController
+    joint: l_el_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  # Right Arm ---------------------------------------------------
+  r_sho_pitch_position:
+    type: effort_controllers/JointPositionController
+    joint: r_sho_pitch_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_sho_roll_position:
+    type: effort_controllers/JointPositionController
+    joint: r_sho_roll_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  r_el_position:
+    type: effort_controllers/JointPositionController
+    joint: r_el_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  # Head ---------------------------------------------------
+  head_pan_position:
+    type: effort_controllers/JointPositionController
+    joint: head_pan_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
+  
+  head_tilt_position:
+    type: effort_controllers/JointPositionController
+    joint: head_tilt_link
+    pid: {p: 12.74, i: 0.0, d: 0.0}
